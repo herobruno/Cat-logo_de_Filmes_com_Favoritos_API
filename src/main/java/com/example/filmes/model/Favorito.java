@@ -18,6 +18,10 @@ public class Favorito {
 
     private String filmeId;
 
+    public Favorito() {
+
+    }
+
     public String getId() {
         return id;
     }
