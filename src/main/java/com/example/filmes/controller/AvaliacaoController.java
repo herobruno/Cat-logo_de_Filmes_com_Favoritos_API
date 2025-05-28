@@ -2,6 +2,7 @@ package com.example.filmes.controller;
 
 import com.example.filmes.model.Avaliacao;
 import com.example.filmes.service.AvaliacaoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class AvaliacaoController {
     @PostMapping("/{filmeId}")
     public ResponseEntity<Avaliacao> adicionarAvaliacao(
             @PathVariable String filmeId,
-            @RequestBody Avaliacao avaliacao) {
+            @Valid @RequestBody Avaliacao avaliacao) {
         Avaliacao nova = avaliacaoService.adicionarAvaliacao(filmeId, avaliacao);
         return ResponseEntity.status(HttpStatus.CREATED).body(nova);
     }

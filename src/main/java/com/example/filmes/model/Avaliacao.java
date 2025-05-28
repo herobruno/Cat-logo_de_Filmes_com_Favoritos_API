@@ -1,5 +1,7 @@
 package com.example.filmes.model;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -58,6 +60,8 @@ public class Avaliacao {
     }
 
     private String comentario;
+    @Min(1)
+    @Max(5)
     private int nota;
 
     private String filmeId;
