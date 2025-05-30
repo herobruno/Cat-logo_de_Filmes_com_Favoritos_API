@@ -4,12 +4,14 @@ import com.example.filmes.model.Filme;
 import com.example.filmes.service.FilmeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/filmes")
+@CrossOrigin(origins = "*")
 public class FilmeController {
 
     private final FilmeService filmeService;
@@ -41,12 +43,14 @@ public class FilmeController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Filme> criarFilme(@RequestBody Filme filme) {
         Filme salvo = filmeService.salvar(filme);
         return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
     }
 
-   @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deletarFilme(@PathVariable String id) {
         filmeService.deletar(id);
         return ResponseEntity.noContent().build();
