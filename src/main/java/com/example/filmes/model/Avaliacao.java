@@ -10,14 +10,23 @@ public class Avaliacao {
     @Id
     private String id;
 
+    private String autor; // Nome do usuário que fez a avaliação
+    private String comentario;
+    
+    @Min(1)
+    @Max(5)
+    private int nota;
+    
+    private String filmeId;
+
+    public Avaliacao() {}
+
     public Avaliacao(String autor, String comentario, int nota, String filmeId) {
         this.autor = autor;
         this.comentario = comentario;
         this.nota = nota;
         this.filmeId = filmeId;
     }
-
-    private String autor;
 
     public String getId() {
         return id;
@@ -58,11 +67,4 @@ public class Avaliacao {
     public void setFilmeId(String filmeId) {
         this.filmeId = filmeId;
     }
-
-    private String comentario;
-    @Min(1)
-    @Max(5)
-    private int nota;
-
-    private String filmeId;
 }
