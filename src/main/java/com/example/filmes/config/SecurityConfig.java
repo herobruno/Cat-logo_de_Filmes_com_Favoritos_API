@@ -36,6 +36,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/filmes/**").permitAll()
+                .requestMatchers("/api/avaliacoes/{filmeId}").permitAll()
                 .requestMatchers("/api/avaliacoes/**").authenticated()
                 .requestMatchers("/api/favoritos/**").authenticated()
                 .anyRequest().authenticated()
