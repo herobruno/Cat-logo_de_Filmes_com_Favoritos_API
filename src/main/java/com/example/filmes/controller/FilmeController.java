@@ -52,6 +52,9 @@ public class FilmeController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deletarFilme(@PathVariable String id) {
+        if (!filmeService.buscarPorId(id).isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
         filmeService.deletar(id);
         return ResponseEntity.noContent().build();
     }
