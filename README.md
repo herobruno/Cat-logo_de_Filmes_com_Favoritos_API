@@ -228,20 +228,14 @@ Adiciona uma nova avaliação (requer autenticação).
 #### POST /api/favoritos/{filmeId}
 Marca um filme como favorito (requer autenticação).
 
-**Resposta (200 OK)**
+**Resposta (201 Created)**
 
-**Erros:**
-- 401 Unauthorized: Usuário não autenticado
-- 404 Not Found: Filme não encontrado
 
 #### DELETE /api/favoritos/{filmeId}
 Remove um filme dos favoritos (requer autenticação).
 
 **Resposta (204 No Content)**
 
-**Erros:**
-- 401 Unauthorized: Usuário não autenticado
-- 404 Not Found: Filme não encontrado
 
 #### GET /api/favoritos
 Lista todos os filmes favoritos do usuário (requer autenticação).
@@ -254,8 +248,6 @@ Lista todos os filmes favoritos do usuário (requer autenticação).
 ]
 ```
 
-**Erros:**
-- 401 Unauthorized: Usuário não autenticado
 
 #### GET /api/favoritos/{filmeId}
 Verifica se um filme está nos favoritos (requer autenticação).
@@ -265,9 +257,6 @@ Verifica se um filme está nos favoritos (requer autenticação).
 true
 ```
 
-**Erros:**
-- 401 Unauthorized: Usuário não autenticado
-- 404 Not Found: Filme não encontrado
 
 ## Testes das Rotas
 
@@ -397,50 +386,6 @@ curl -X GET http://localhost:8080/api/favoritos/68373c4fee8c89404745ad03 \
 - Endpoints protegidos por autenticação
 - CORS habilitado para todas as origens
 
-## Modelos de Dados
-
-### Usuario
-```json
-{
-    "id": "string",
-    "nome": "string",
-    "email": "string",
-    "senha": "string (criptografada)",
-    "isAdmin": "integer (0 ou 1)"
-}
-```
-
-### Filme
-```json
-{
-    "id": "string",
-    "titulo": "string",
-    "imagemUrl": "string",
-    "ano": "integer",
-    "generos": ["string"],
-    "sinopse": "string"
-}
-```
-
-### Avaliacao
-```json
-{
-    "id": "string",
-    "filmeId": "string",
-    "autor": "string",
-    "nota": "integer (1-5)",
-    "comentario": "string"
-}
-```
-
-### Favorito
-```json
-{
-    "id": "string",
-    "userId": "string",
-    "filmeId": "string"
-}
-```
 
 ## Como Executar
 
@@ -451,12 +396,6 @@ curl -X GET http://localhost:8080/api/favoritos/68373c4fee8c89404745ad03 \
 mvn spring-boot:run
 ```
 
-## Testes
-
-Para executar os testes:
-```bash
-mvn test
-```
 
 ## Observações
 

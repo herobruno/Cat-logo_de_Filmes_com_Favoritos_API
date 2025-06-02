@@ -4,6 +4,7 @@ import com.example.filmes.model.Usuario;
 import com.example.filmes.service.FavoritoService;
 import com.example.filmes.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,7 +27,7 @@ public class FavoritoController {
     public ResponseEntity<Void> marcar(@PathVariable String filmeId) {
         String userId = getUserIdFromContext();
         favoritoService.marcarFavorito(userId, filmeId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping("/{filmeId}")
