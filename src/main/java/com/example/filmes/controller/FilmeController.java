@@ -49,6 +49,18 @@ public class FilmeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
     }
 
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Filme> atualizarFilme(@PathVariable String id, @RequestBody Filme filmeAtualizado) {
+        if (!filmeService.buscarPorId(id).isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        
+        filmeAtualizado.setId(id);
+        Filme filmeSalvo = filmeService.salvar(filmeAtualizado);
+        return ResponseEntity.ok(filmeSalvo);
+    }
+
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deletarFilme(@PathVariable String id) {

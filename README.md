@@ -167,6 +167,37 @@ Cria um novo filme (requer role ADMIN).
 
 **Erros:**
 - 403 Forbidden: Usuário não tem permissão de admin
+- 401 Unauthorized: Usuário não autenticado
+
+#### PUT /api/filmes/{id}
+Atualiza um filme existente (requer role ADMIN).
+
+**Payload:**
+```json
+{
+    "titulo": "string",
+    "imagemUrl": "string",
+    "ano": "integer",
+    "generos": ["string"],
+    "sinopse": "string"
+}
+```
+
+**Resposta (200 OK):**
+```json
+{
+    "id": "68373c4fee8c89404745ad03",
+    "titulo": "Título Atualizado",
+    "imagemUrl": "https://exemplo.com/nova-imagem.jpg",
+    "ano": 2024,
+    "generos": ["Ação", "Aventura", "Ficção"],
+    "sinopse": "Nova sinopse do filme"
+}
+```
+
+**Erros:**
+- 404 Not Found: Filme não encontrado
+- 403 Forbidden: Usuário não tem permissão de admin
 
 
 #### DELETE /api/filmes/{id}
@@ -316,6 +347,20 @@ curl -X POST http://localhost:8080/api/filmes \
     "ano": 2024,
     "generos": ["Ação", "Aventura"],
     "sinopse": "Sinopse do filme"
+}'
+```
+
+#### Teste Atualizar Filme (requer token de admin)
+```bash
+curl -X PUT http://localhost:8080/api/filmes/68373c4fee8c89404745ad03 \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer {seu_token_jwt}" \
+-d '{
+    "titulo": "Título Atualizado",
+    "imagemUrl": "https://exemplo.com/nova-imagem.jpg",
+    "ano": 2024,
+    "generos": ["Ação", "Aventura", "Ficção"],
+    "sinopse": "Nova sinopse do filme"
 }'
 ```
 
