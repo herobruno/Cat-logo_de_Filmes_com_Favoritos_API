@@ -1,5 +1,6 @@
 package com.example.filmes.service;
 
+import com.example.filmes.exception.FilmeSemAvaliacaoException;
 import com.example.filmes.model.Avaliacao;
 import com.example.filmes.repository.AvaliacaoRepository;
 import com.example.filmes.repository.FilmeRepository;
@@ -18,12 +19,21 @@ public class AvaliacaoService {
     private FilmeRepository filmeRepository;
 
     public List<Avaliacao> listarPorFilme(String filmeId) {
-        return avaliacaoRepository.findByFilmeId(filmeId);
+        if (!filmeRepository.existsById(filmeId)) {
+            throw new FilmeSemAvaliacaoException("Filme não encontrado");
+        }
+
+        List<Avaliacao> avaliacoes = avaliacaoRepository.findByFilmeId(filmeId);
+        if (avaliacoes.isEmpty()) {
+            throw new FilmeSemAvaliacaoException("O filme não possui avaliações");
+        }
+
+        return avaliacoes;
     }
 
     public Avaliacao adicionarAvaliacao(String filmeId, Avaliacao avaliacao) {
         if (!filmeRepository.existsById(filmeId)) {
-            throw new RuntimeException("Filme não encontrado");
+            throw new FilmeSemAvaliacaoException("Filme não encontrado");
         }
 
         avaliacao.setFilmeId(filmeId);
