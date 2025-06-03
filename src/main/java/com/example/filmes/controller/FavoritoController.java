@@ -1,5 +1,6 @@
 package com.example.filmes.controller;
 
+import com.example.filmes.model.Favorito;
 import com.example.filmes.model.Usuario;
 import com.example.filmes.service.FavoritoService;
 import com.example.filmes.service.JwtService;
@@ -24,10 +25,10 @@ public class FavoritoController {
     private JwtService jwtService;
 
     @PostMapping("/{filmeId}")
-    public ResponseEntity<Void> marcar(@PathVariable String filmeId) {
-        String userId = getUserIdFromContext();
-        favoritoService.marcarFavorito(userId, filmeId);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<Favorito> adicionarFavorito(@PathVariable String filmeId, Authentication authentication) {
+        String usuarioId = authentication.getName();
+        Favorito favorito = favoritoService.adicionarFavorito(filmeId, usuarioId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(favorito);
     }
 
     @DeleteMapping("/{filmeId}")

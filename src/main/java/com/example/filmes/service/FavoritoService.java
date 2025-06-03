@@ -1,7 +1,9 @@
 package com.example.filmes.service;
 
+import com.example.filmes.exception.FilmeSemAvaliacaoException;
 import com.example.filmes.model.Favorito;
 import com.example.filmes.repository.FavoritoRepository;
+import com.example.filmes.repository.FilmeRepository;
 import com.example.filmes.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ public class FavoritoService {
 
     @Autowired
     private FavoritoRepository favoritoRepository;
+
+    @Autowired
+    private FilmeRepository filmeRepository;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -53,5 +58,20 @@ public class FavoritoService {
             throw new RuntimeException("Usuário não encontrado");
         }
         return favoritoRepository.findByUserIdAndFilmeId(userEmail, filmeId).isPresent();
+    }
+
+    public Favorito adicionarFavorito(String filmeId, String usuarioId) {
+        if (!filmeRepository.existsById(filmeId)) {
+            throw new FilmeSemAvaliacaoException("Filme não encontrado");
+        }
+
+        if (favoritoRepository.findByUserIdAndFilmeId(usuarioId, filmeId).isPresent()) {
+            throw new FilmeSemAvaliacaoException("Este filme já está nos favoritos");
+        }
+
+        Favorito favorito = new Favorito();
+        favorito.setFilmeId(filmeId);
+        favorito.setUserId(usuarioId);
+        return favoritoRepository.save(favorito);
     }
 }
