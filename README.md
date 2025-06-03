@@ -19,6 +19,8 @@ O projeto segue uma arquitetura em camadas:
 - **Repository**: Acesso ao banco de dados
 - **Model**: Entidades do sistema
 - **Config**: Configurações do Spring Security e JWT
+- **Exception**: Tratamento de exceções
+
 
 ## 🔌 Endpoints da API
 
@@ -469,7 +471,7 @@ curl -X GET http://localhost:8080/api/favoritos/68373c4fee8c89404745ad03 \
 
 1. Substitua `{seu_token_jwt}` pelo token recebido após login
 2. Substitua os IDs de exemplo pelos IDs reais dos filmes
-3. Para testes de admin, use um token de usuário com role ADMIN
+3. Para testes de admin, troque o isAdmin para 1
 4. Todos os endpoints que requerem autenticação precisam do header `Authorization: Bearer {token}`
 5. Os testes podem ser executados via Postman, Insomnia ou qualquer cliente HTTP
 6. Para testes locais, a API deve estar rodando em `http://localhost:8080`
@@ -496,5 +498,5 @@ mvn spring-boot:run
 - A API utiliza MongoDB como banco de dados
 - Todas as senhas são criptografadas antes de serem armazenadas
 - Tokens JWT expiram em 24 horas
-- Endpoints de filmes são públicos, mas criação e deleção requerem role ADMIN ou seja o campo 
+- Endpoints de filmes são públicos, mas criação e deleção     requerem role ADMIN ou seja o campo isAdmin na criação de um usuario tem que ser = a 1
 - Endpoints de avaliações e favoritos requerem autenticação 
