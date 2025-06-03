@@ -1,8 +1,8 @@
-# API de Filmes
+# 🎬 API de Filmes
 
 Esta é uma API RESTful desenvolvida em Spring Boot para gerenciamento de filmes, avaliações e favoritos.
 
-## Tecnologias Utilizadas
+## 🛠️ Tecnologias Utilizadas
 
 - Java 21
 - Spring Boot 3.5.0
@@ -11,18 +11,18 @@ Esta é uma API RESTful desenvolvida em Spring Boot para gerenciamento de filmes
 - JWT para autenticação
 - Maven
 
-## Estrutura do Projeto
+## 📁 Estrutura do Projeto
 
 O projeto segue uma arquitetura em camadas:
-- Controller: Endpoints da API
-- Service: Lógica de negócio
-- Repository: Acesso ao banco de dados
-- Model: Entidades do sistema
-- Config: Configurações do Spring Security e JWT
+- **Controller**: Endpoints da API
+- **Service**: Lógica de negócio
+- **Repository**: Acesso ao banco de dados
+- **Model**: Entidades do sistema
+- **Config**: Configurações do Spring Security e JWT
 
-## Endpoints da API
+## 🔌 Endpoints da API
 
-### Autenticação
+### 🔐 Autenticação
 
 #### POST /api/auth/registrar
 Registra um novo usuário.
@@ -68,7 +68,7 @@ Realiza login do usuário.
 - 400 Bad Request: Usuário não encontrado
 - 400 Bad Request: Senha incorreta
 
-### Filmes
+### 🎥 Filmes
 
 #### GET /api/filmes
 Lista todos os filmes.
@@ -199,7 +199,6 @@ Atualiza um filme existente (requer role ADMIN).
 - 404 Not Found: Filme não encontrado
 - 403 Forbidden: Usuário não tem permissão de admin
 
-
 #### DELETE /api/filmes/{id}
 Remove um filme (requer role ADMIN).
 
@@ -209,7 +208,7 @@ Remove um filme (requer role ADMIN).
 - 403 Forbidden: Usuário não tem permissão de admin
 - 404 Not Found: Filme não encontrado
 
-### Avaliações
+### ⭐ Avaliações
 
 #### GET /api/avaliacoes/{filmeId}
 Lista todas as avaliações de um filme.
@@ -225,6 +224,20 @@ Lista todas as avaliações de um filme.
         "comentario": "Ótimo filme!"
     }
 ]
+```
+
+**Erros:**
+- 404 Not Found: Filme não encontrado
+```json
+{
+    "message": "Filme não encontrado"
+}
+```
+- 404 Not Found: Filme sem avaliações
+```json
+{
+    "message": "O filme não possui avaliações"
+}
 ```
 
 #### POST /api/avaliacoes/{filmeId}
@@ -253,20 +266,54 @@ Adiciona uma nova avaliação (requer autenticação).
 - 401 Unauthorized: Usuário não autenticado
 - 400 Bad Request: Nota inválida (deve estar entre 1 e 5)
 - 404 Not Found: Filme não encontrado
+```json
+{
+    "message": "Filme não encontrado"
+}
+```
 
-### Favoritos
+### ❤️ Favoritos
 
 #### POST /api/favoritos/{filmeId}
 Marca um filme como favorito (requer autenticação).
 
-**Resposta (201 Created)**
+**Resposta (201 Created):**
+```json
+{
+    "id": "68373c4fee8c89404745ad03",
+    "filmeId": "68373c4fee8c89404745ad03",
+    "userId": "usuario@email.com"
+}
+```
 
+**Erros:**
+- 401 Unauthorized: Usuário não autenticado
+- 404 Not Found: Filme não encontrado
+```json
+{
+    "message": "Filme não encontrado"
+}
+```
+- 404 Not Found: Filme já está nos favoritos
+```json
+{
+    "message": "Este filme já está nos favoritos"
+}
+```
 
 #### DELETE /api/favoritos/{filmeId}
 Remove um filme dos favoritos (requer autenticação).
 
 **Resposta (204 No Content)**
 
+**Erros:**
+- 401 Unauthorized: Usuário não autenticado
+- 404 Not Found: Filme não está nos favoritos
+```json
+{
+    "message": "Este filme não existe nos seus favoritos"
+}
+```
 
 #### GET /api/favoritos
 Lista todos os filmes favoritos do usuário (requer autenticação).
@@ -279,6 +326,8 @@ Lista todos os filmes favoritos do usuário (requer autenticação).
 ]
 ```
 
+**Erros:**
+- 401 Unauthorized: Usuário não autenticado
 
 #### GET /api/favoritos/{filmeId}
 Verifica se um filme está nos favoritos (requer autenticação).
@@ -288,10 +337,12 @@ Verifica se um filme está nos favoritos (requer autenticação).
 true
 ```
 
+**Erros:**
+- 401 Unauthorized: Usuário não autenticado
 
-## Testes das Rotas
+## 🧪 Testes das Rotas
 
-### Autenticação
+### 🔐 Autenticação
 
 #### Teste de Registro
 ```bash
@@ -314,7 +365,7 @@ curl -X POST http://localhost:8080/api/auth/login \
 }'
 ```
 
-### Filmes
+### 🎥 Filmes
 
 #### Teste Listar Todos
 ```bash
@@ -370,7 +421,7 @@ curl -X DELETE http://localhost:8080/api/filmes/68373c4fee8c89404745ad03 \
 -H "Authorization: Bearer {seu_token_jwt}"
 ```
 
-### Avaliações
+### ⭐ Avaliações
 
 #### Teste Listar Avaliações
 ```bash
@@ -388,7 +439,7 @@ curl -X POST http://localhost:8080/api/avaliacoes/68373c4fee8c89404745ad03 \
 }'
 ```
 
-### Favoritos
+### ❤️ Favoritos
 
 #### Teste Marcar Favorito
 ```bash
@@ -414,7 +465,7 @@ curl -X GET http://localhost:8080/api/favoritos/68373c4fee8c89404745ad03 \
 -H "Authorization: Bearer {seu_token_jwt}"
 ```
 
-### Observações sobre os Testes
+### 📝 Observações sobre os Testes
 
 1. Substitua `{seu_token_jwt}` pelo token recebido após login
 2. Substitua os IDs de exemplo pelos IDs reais dos filmes
@@ -423,7 +474,7 @@ curl -X GET http://localhost:8080/api/favoritos/68373c4fee8c89404745ad03 \
 5. Os testes podem ser executados via Postman, Insomnia ou qualquer cliente HTTP
 6. Para testes locais, a API deve estar rodando em `http://localhost:8080`
 
-## Segurança
+## 🔒 Segurança
 
 - Autenticação via JWT
 - Senhas criptografadas com BCrypt
@@ -431,8 +482,7 @@ curl -X GET http://localhost:8080/api/favoritos/68373c4fee8c89404745ad03 \
 - Endpoints protegidos por autenticação
 - CORS habilitado para todas as origens
 
-
-## Como Executar
+## 🚀 Como Executar
 
 1. Certifique-se de ter o Java 21 e Maven instalados
 2. Configure o MongoDB localmente ou atualize a URL de conexão no `application.properties`
@@ -441,11 +491,10 @@ curl -X GET http://localhost:8080/api/favoritos/68373c4fee8c89404745ad03 \
 mvn spring-boot:run
 ```
 
-
-## Observações
+## 📌 Observações
 
 - A API utiliza MongoDB como banco de dados
 - Todas as senhas são criptografadas antes de serem armazenadas
 - Tokens JWT expiram em 24 horas
-- Endpoints de filmes são públicos, mas criação e deleção requerem role ADMIN
+- Endpoints de filmes são públicos, mas criação e deleção requerem role ADMIN ou seja o campo 
 - Endpoints de avaliações e favoritos requerem autenticação 
