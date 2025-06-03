@@ -37,8 +37,8 @@ public class FavoritoService {
     }
 
     public void desmarcarFavorito(String userEmail, String filmeId) {
-        if (!usuarioRepository.existsByEmail(userEmail)) {
-            throw new RuntimeException("Usuário não encontrado");
+        if (!favoritoRepository.findByUserIdAndFilmeId(userEmail, filmeId).isPresent()) {
+            throw new FilmeSemAvaliacaoException("Este filme não existe nos seus favoritos");
         }
         favoritoRepository.deleteByUserIdAndFilmeId(userEmail, filmeId);
     }
